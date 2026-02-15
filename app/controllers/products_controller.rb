@@ -5,21 +5,25 @@ class ProductsController < ApplicationController
   before_action :set_product, only: [:update]
 
   def index
-    result = FetchProductsService.new(index_params).call
-    render json: {
-      products: result.products.map { |p| product_json(p) },
-      meta: {
-        total_count: result.total_count,
-        total_pages: result.total_pages,
-        current_page: result.current_page,
-        per_page: result.per_page
+    payload = ProductsCache.fetch(index_params) do
+      result = FetchProductsService.new(index_params).call
+      {
+        products: result.products.map { |p| product_json(p) },
+        meta: {
+          total_count: result.total_count,
+          total_pages: result.total_pages,
+          current_page: result.current_page,
+          per_page: result.per_page
+        }
       }
-    }
+    end
+    render json: payload
   end
 
   def create
     @product = Product.new(product_params)
     if @product.save
+      ProductsCache.invalidate!
       render json: { product: product_json(@product) }, status: :created
     else
       render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
@@ -28,6 +32,7 @@ class ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
+      ProductsCache.invalidate!
       render json: { product: product_json(@product) }
     else
       render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity

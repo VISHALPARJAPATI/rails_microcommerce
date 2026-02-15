@@ -27,6 +27,9 @@ class StripeWebhookController < ApplicationController
 
   def handle_checkout_completed(session)
     order = Order.find_by(stripe_session_id: session.id)
-    order&.update!(status: "completed")
+    return unless order
+
+    order.update!(status: "completed")
+    KafkaProducerService.publish_order_completed(order)
   end
 end

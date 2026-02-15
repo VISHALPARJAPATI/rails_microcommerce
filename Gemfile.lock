@@ -99,6 +99,8 @@ GEM
     devise-jwt (0.13.0)
       devise (>= 4.0.0, < 6.0.0)
       warden-jwt_auth (~> 0.10)
+    digest-crc (0.7.0)
+      rake (>= 12.0.0, < 14.0.0)
     dotenv (3.2.0)
     drb (2.2.3)
     dry-auto_inject (1.1.0)
@@ -255,6 +257,10 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
+    redis-client (0.26.4)
+      connection_pool
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
@@ -289,6 +295,8 @@ GEM
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
+    ruby-kafka (1.5.0)
+      digest-crc
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
     solid_cable (3.0.12)
@@ -366,7 +374,9 @@ DEPENDENCIES
   puma (>= 5.0)
   rack-cors
   rails (~> 8.0.4)
+  redis
   rubocop-rails-omakase
+  ruby-kafka
   solid_cable
   solid_cache
   solid_queue

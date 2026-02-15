@@ -23,8 +23,12 @@ Rails.application.configure do
     config.action_controller.perform_caching = false
   end
 
-  # Change to :null_store to avoid any caching.
-  config.cache_store = :memory_store
+  # Use Redis when REDIS_URL is set (Step 8 API optimization); otherwise memory store.
+  config.cache_store = if ENV["REDIS_URL"].present?
+    [:redis_cache_store, { url: ENV["REDIS_URL"], expires_in: 5.minutes }]
+  else
+    :memory_store
+  end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local

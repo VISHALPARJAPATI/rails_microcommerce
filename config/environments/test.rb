@@ -28,6 +28,9 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
+  # Allow session in test so Devise sign_out (revocation) does not raise (JWT auth uses store: false for sign_in).
+  config.session_store :cookie_store, key: "_rails_microcommerce_test_session"
+
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
 

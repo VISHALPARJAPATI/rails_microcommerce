@@ -13,6 +13,11 @@ Rails.application.routes.draw do
 
   resources :products, only: [:index, :create, :update]
 
+  post "checkout", to: "checkout#create"
+  post "stripe/webhook", to: "stripe_webhook#create"
+
+  resources :orders, only: [:index, :show]
+
   # Defines the root path route ("/")
   # root "posts#index"
 end

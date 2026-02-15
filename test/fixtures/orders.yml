@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  total_cents: 6998
+  status: pending
+  stripe_session_id: cs_test_placeholder_1
+
+two:
+  user: one
+  total_cents: 1999
+  status: completed
+  stripe_session_id: cs_test_placeholder_2

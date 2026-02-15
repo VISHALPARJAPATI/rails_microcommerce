@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Wireless Earbuds
+  price: 49.99
+  description: Noise-cancelling wireless earbuds
+  category: electronics
+
+two:
+  name: Cotton T-Shirt
+  price: 19.99
+  description: Plain cotton t-shirt
+  category: clothing

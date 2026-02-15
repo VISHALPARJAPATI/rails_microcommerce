@@ -30,3 +30,6 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Kubernetes secret (use secret.yaml.example as template)
+/kubernetes/secret.yaml

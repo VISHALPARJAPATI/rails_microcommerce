@@ -1,0 +1,17 @@
+# Non-sensitive environment. Replace REDIS_URL / KAFKA_BROKERS if using in-cluster services.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rails-microcommerce-config
+  namespace: rails-microcommerce
+  labels:
+    app: rails-microcommerce
+data:
+  RAILS_ENV: "production"
+  RAILS_LOG_LEVEL: "info"
+  RAILS_MAX_THREADS: "5"
+  # Set if using Redis for cache (Step 8). Example: redis://redis:6379/0
+  # REDIS_URL: "redis://redis:6379/0"
+  # Set if using Kafka (Step 8). Example: kafka:9092
+  # KAFKA_BROKERS: "kafka:9092"
+  SOLID_QUEUE_IN_PUMA: "true"

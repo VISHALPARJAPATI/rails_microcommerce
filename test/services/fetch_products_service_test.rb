@@ -37,6 +37,18 @@ class FetchProductsServiceTest < ActiveSupport::TestCase
     assert result.products.empty?
   end
 
+  test "category_id filter returns only products in that category" do
+    result = FetchProductsService.new(category_id: @electronics.id).call
+    assert result.total_count >= 1
+    result.products.each { |p| assert_equal @electronics.id, p.category_id }
+  end
+
+  test "category_id with search combines filters" do
+    result = FetchProductsService.new(category_id: @electronics.id, q: "Wireless").call
+    assert_equal 1, result.total_count
+    assert_equal "Wireless Earbuds", result.products.first.name
+  end
+
   test "sort by name ascending" do
     result = FetchProductsService.new(sort: "name", order: "asc").call
     names = result.products.pluck(:name)

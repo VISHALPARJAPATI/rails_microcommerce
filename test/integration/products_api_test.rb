@@ -56,6 +56,24 @@ class ProductsApiTest < ActionDispatch::IntegrationTest
     assert_equal (Product.count.to_f / 1).ceil, json["meta"]["total_pages"]
   end
 
+  test "GET /products with category_id filters by category" do
+    cat = categories(:electronics)
+    get_products(category_id: cat.id)
+    assert_response :success
+    json = response.parsed_body
+    json["products"].each { |p| assert_equal cat.id, p["category_id"] }
+  end
+
+  test "GET /products with q, sort, order, page, per_page combined" do
+    get_products(q: "e", sort: "price", order: "asc", page: 1, per_page: 5)
+    assert_response :success
+    json = response.parsed_body
+    assert json["products"].is_a?(Array)
+    assert json["meta"]["total_count"].is_a?(Integer)
+    assert json["meta"]["current_page"] == 1
+    assert json["meta"]["per_page"] == 5
+  end
+
   test "POST /products without auth returns 401" do
     assert_no_difference("Product.count") do
       post products_path, params: { product: { name: "New", price: 10, category_id: categories(:electronics).id } }.to_json, headers: json_headers

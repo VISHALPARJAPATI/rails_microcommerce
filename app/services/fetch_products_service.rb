@@ -12,6 +12,7 @@ class FetchProductsService
   def initialize(params = {})
     params = params.to_h.with_indifferent_access
     @query = params[:q].to_s.strip
+    @category_id = params[:category_id].presence
     @sort = params[:sort].presence_in(ALLOWED_SORT_COLUMNS) || DEFAULT_SORT
     @order = params[:order].to_s.downcase == "asc" ? "asc" : "desc"
     @page = [params[:page].to_i, 1].max
@@ -25,6 +26,7 @@ class FetchProductsService
 
   def call
     relation = Product.includes(:category)
+    relation = apply_category_filter(relation)
     relation = apply_search(relation)
     total_count = relation.distinct.count
     relation = apply_sort(relation)
@@ -41,6 +43,11 @@ class FetchProductsService
   end
 
   private
+
+  def apply_category_filter(relation)
+    return relation if @category_id.blank?
+    relation.where(category_id: @category_id)
+  end
 
   def apply_search(relation)
     return relation if @query.blank?

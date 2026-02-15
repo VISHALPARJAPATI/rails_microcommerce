@@ -41,7 +41,7 @@ class ProductsController < ApplicationController
   end
 
   def index_params
-    params.permit(:q, :sort, :order, :page, :per_page)
+    params.permit(:q, :category_id, :sort, :order, :page, :per_page)
   end
 
   def product_params

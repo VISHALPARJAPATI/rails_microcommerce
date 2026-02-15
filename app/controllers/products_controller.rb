@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ProductsController < ApplicationController
+  before_action :authenticate_user!, only: [:create, :update]
+  before_action :set_product, only: [:update]
+
   def index
     result = FetchProductsService.new(index_params).call
     render json: {
@@ -14,10 +17,35 @@ class ProductsController < ApplicationController
     }
   end
 
+  def create
+    @product = Product.new(product_params)
+    if @product.save
+      render json: { product: product_json(@product) }, status: :created
+    else
+      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @product.update(product_params)
+      render json: { product: product_json(@product) }
+    else
+      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def set_product
+    @product = Product.find(params[:id])
+  end
 
   def index_params
     params.permit(:q, :sort, :order, :page, :per_page)
+  end
+
+  def product_params
+    params.require(:product).permit(:name, :price, :description, :category_id)
   end
 
   def product_json(product)

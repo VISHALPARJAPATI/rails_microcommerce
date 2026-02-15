@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   get "me", to: "me#show"
 
-  resources :products, only: [:index]
+  resources :products, only: [:index, :create, :update]
 
   # Defines the root path route ("/")
   # root "posts#index"

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# Optional Kafka client for Step 8 API optimization.
-# Set KAFKA_BROKERS (e.g. "localhost:9092") to enable.
+# Kafka client when KAFKA_BROKERS is set (e.g. localhost:9092).
 Rails.application.config.after_initialize do
   brokers = ENV["KAFKA_BROKERS"].to_s.strip
   if brokers.present?

@@ -43,7 +43,7 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Use Redis when REDIS_URL is set (Step 8 API optimization); otherwise Solid Cache.
+  # Use Redis when REDIS_URL is set; otherwise Solid Cache.
   config.cache_store = if ENV["REDIS_URL"].present?
     [:redis_cache_store, { url: ENV["REDIS_URL"] }]
   else

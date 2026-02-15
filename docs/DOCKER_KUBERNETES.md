@@ -1,4 +1,4 @@
-# Docker and Kubernetes (Step 9)
+# Docker and Kubernetes
 
 ## Docker
 

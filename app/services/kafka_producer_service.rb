@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Publishes events to Kafka when KAFKA_BROKERS is set (Step 8 API optimization).
+# Publishes events to Kafka when KAFKA_BROKERS is set.
 class KafkaProducerService
   TOPIC_ORDER_COMPLETED = "order.completed"
 

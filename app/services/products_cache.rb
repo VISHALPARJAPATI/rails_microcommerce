@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Caches products list API responses in Rails.cache (Redis when REDIS_URL is set).
-# Cache is versioned; call invalidate! when products are created or updated.
+# Versioned cache for the products list. Uses Rails.cache (Redis if REDIS_URL is set).
+# Call invalidate! after creating or updating a product.
 module ProductsCache
   CACHE_VERSION_KEY = "products/cache_version"
   CACHE_KEY_PREFIX = "products/list"

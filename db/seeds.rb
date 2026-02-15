@@ -1,9 +1,25 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Idempotent seeds: safe to run multiple times.
+# Creates sample categories and products for development/demo.
+
+return unless Rails.env.development? || ENV["RAILS_SEED_SAMPLE"].present?
+
+electronics = Category.find_or_create_by!(name: "Electronics")
+clothing = Category.find_or_create_by!(name: "Clothing")
+
+Product.find_or_create_by!(name: "Wireless Earbuds") do |p|
+  p.category = electronics
+  p.price = 49.99
+  p.description = "Noise-cancelling wireless earbuds."
+end
+
+Product.find_or_create_by!(name: "Cotton T-Shirt") do |p|
+  p.category = clothing
+  p.price = 19.99
+  p.description = "Plain cotton t-shirt, multiple colours."
+end
+
+Product.find_or_create_by!(name: "USB-C Hub") do |p|
+  p.category = electronics
+  p.price = 34.50
+  p.description = "Multi-port USB-C hub with HDMI."
+end
